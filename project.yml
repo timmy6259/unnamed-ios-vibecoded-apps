@@ -1,0 +1,44 @@
+name: ToDoApp
+options:
+  bundleIdPrefix: com.timmy6259
+  minimumXcodeGenVersion: 2.40.0
+  deploymentTarget:
+    iOS: "16.0"
+
+settings:
+  SWIFT_VERSION: 5.9
+
+packages: {}
+
+targets:
+  ToDoApp:
+    type: application
+    platform: iOS
+    deploymentTarget: "16.0"
+    sources:
+      - path: Sources
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.timmy6259.ToDoApp
+      GENERATE_INFOPLIST_FILE: YES
+      SWIFT_VERSION: 5.9
+      TARGETED_DEVICE_FAMILY: "1,2"
+    info:
+      path: Sources/Info.plist
+      properties:
+        CFBundleDisplayName: ToDoApp
+        CFBundleIdentifier: com.timmy6259.ToDoApp
+        CFBundleShortVersionString: "1.0"
+        CFBundleVersion: "1"
+        LSRequiresIPhoneOS: YES
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+        UILaunchScreen: {}
