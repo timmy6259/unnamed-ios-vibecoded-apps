@@ -1,4 +1,4 @@
-name: iOS Build
+name: iOS Build & Generate IPA
 
 on:
   push:
@@ -19,5 +19,32 @@ jobs:
       - name: Generate Xcode project
         run: xcodegen generate
 
-      - name: Build app for iOS Simulator
-        run: xcodebuild -project ToDoApp.xcodeproj -scheme ToDoApp -destination 'platform=iOS Simulator,name=iPhone 16' build
+      - name: Build app for iOS device (unsigned)
+        run: |
+          xcodebuild -project ToDoApp.xcodeproj \
+            -scheme ToDoApp \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath build \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            build
+
+      - name: Generate unsigned IPA
+        run: |
+          mkdir -p build/ipa
+          cd build/Build/Products/Release-iphoneos
+          zip -r ../../../ipa/ToDoApp.ipa ToDoApp.app
+
+      - name: Upload IPA as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ToDoApp-unsigned-ipa
+          path: build/ipa/ToDoApp.ipa
+          retention-days: 30
+
+      - name: Create Release (optional)
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: build/ipa/ToDoApp.ipa
